@@ -1,0 +1,68 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+/* HEADER */
+header {
+    background-color: #1f3c88;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+/* SECTIONS */
+section {
+    background: white;
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* HEADINGS */
+h2 {
+    color: #1f3c88;
+    margin-bottom: 10px;
+}
+
+/* SKILLS */
+.skill {
+    display: inline-block;
+    background: #1f3c88;
+    color: white;
+    padding: 8px 14px;
+    margin: 5px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* CARDS */
+.card {
+    background: #f7f7f7;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 6px;
+}
+
+/* LIST */
+ul {
+    margin-left: 20px;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    background: #1f3c88;
+    color: white;
+    padding: 15px;
+    margin-top: 20px;
+}
+
