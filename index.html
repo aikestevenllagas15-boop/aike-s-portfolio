@@ -1,251 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aike Steven | Professional Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-font: 'Instrument Sans', sans-serif;
-            --secondary-font: 'Inter', sans-serif;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --accent: #2563eb;
-            --nav-bg: rgba(255, 255, 255, 0.8);
-            --border: rgba(226, 232, 240, 0.8);
-            --skill-bg: #ffffff;
-            --input-bg: #f1f5f9;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aike Steven | Professional Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Light Mode Colors */
+            --primary-font: 'Instrument Sans', sans-serif;
+            --secondary-font: 'Inter', sans-serif;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent: #2563eb;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --border: rgba(226, 232, 240, 0.8);
+            --skill-bg: #ffffff;
+        }
 
-        [data-theme="dark"] {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --accent: #60a5fa;
-            --nav-bg: rgba(15, 23, 42, 0.9);
-            --border: rgba(51, 65, 85, 0.5);
-            --skill-bg: #334155;
-            --input-bg: #0f172a;
-        }
+        /* Dark Mode Colors */
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #60a5fa;
+            --nav-bg: rgba(15, 23, 42, 0.9);
+            --border: rgba(51, 65, 85, 0.5);
+            --skill-bg: #334155;
+        }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--secondary-font); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
 
-        /* --- Navigation --- */
-        nav { position: fixed; top: 0; width: 100%; background: var(--nav-bg); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); z-index: 1000; padding: 0.75rem 0; }
-        .nav-content { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
-        .logo { font-family: var(--primary-font); font-weight: 700; font-size: 1.4rem; letter-spacing: -1px; }
-        .logo span { color: var(--accent); }
-        .nav-right { display: flex; align-items: center; gap: 2rem; }
-        .links a { text-decoration: none; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; margin-left: 1.5rem; transition: 0.2s; }
-        .links a:hover { color: var(--accent); }
-        #theme-toggle { background: var(--skill-bg); border: 1px solid var(--border); cursor: pointer; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        html { scroll-behavior: smooth; }
 
-        /* --- Header --- */
-        header { padding: 9rem 2rem 5rem; text-align: center; background: radial-gradient(circle at top right, var(--accent), transparent 400px); }
-        .profile-wrapper { width: 130px; height: 130px; margin: 0 auto 1.5rem; border-radius: 50%; overflow: hidden; border: 4px solid var(--card-bg); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-        .profile-img { width: 100%; height: 100%; object-fit: cover; }
-        h1 { font-family: var(--primary-font); font-size: clamp(2.5rem, 8vw, 3.5rem); font-weight: 700; letter-spacing: -0.04em; margin-bottom: 0.5rem; }
-        .subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem; }
-        .highlight { color: var(--accent); font-weight: 600; }
+        body {
+            font-family: var(--secondary-font);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
 
-        /* --- Main Content --- */
-        main { max-width: 900px; margin: 0 auto; padding: 2rem; }
-        section { margin-bottom: 5rem; }
-        h2 { font-family: var(--primary-font); font-size: 1.5rem; margin-bottom: 2rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
-        h2::after { content: ""; height: 1px; flex-grow: 1; background: var(--border); }
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 0.75rem 0;
+        }
 
-        /* --- Certificates Grid --- */
-        .cert-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        .cert-card { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; cursor: pointer; transition: transform 0.3s ease; }
-        .cert-card:hover { transform: translateY(-5px); }
-        .cert-img-container { width: 100%; height: 200px; background: #cbd5e1; overflow: hidden; position: relative; }
-        .cert-img-container img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .cert-card:hover img { transform: scale(1.1); }
-        .cert-info { padding: 1.5rem; }
-        .cert-info h3 { font-family: var(--primary-font); font-size: 1.1rem; margin-bottom: 0.5rem; }
-        .cert-info p { font-size: 0.85rem; color: var(--text-muted); }
+        .nav-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
 
-        /* --- Certificate Modal (Popup) --- */
-        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { max-width: 90%; max-height: 90%; border-radius: 10px; }
-        .close-modal { position: absolute; top: 30px; right: 30px; color: white; font-size: 2rem; cursor: pointer; font-family: sans-serif; }
+        .logo {
+            font-family: var(--primary-font);
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: -1px;
+        }
 
-        /* --- Contact Form --- */
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-        .contact-info-item { margin-bottom: 1.5rem; }
-        .contact-info-item strong { display: block; font-size: 0.7rem; text-transform: uppercase; color: var(--accent); letter-spacing: 1px; }
-        .form-group { margin-bottom: 1rem; display: flex; flex-direction: column; }
-        .form-group label { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.4rem; }
-        .form-group input, .form-group textarea { padding: 0.8rem; border-radius: 10px; border: 1px solid var(--border); background: var(--input-bg); color: var(--text-main); font-family: inherit; }
-        .submit-btn { background: var(--accent); color: white; border: none; padding: 1rem; border-radius: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .submit-btn:hover { filter: brightness(1.2); }
+        .logo span { color: var(--accent); }
 
-        /* --- Skills --- */
-        .skills-container { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-        .skill-tag { background: var(--card-bg); padding: 0.6rem 1.2rem; border-radius: 12px; font-size: 0.85rem; font-weight: 500; border: 1px solid var(--border); }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
 
-        footer { text-align: center; padding: 4rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; }
+        .links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
 
-        @media (max-width: 768px) {
-            .contact-grid { grid-template-columns: 1fr; }
-            .links { display: none; }
-        }
-    </style>
+        .links a:hover { color: var(--accent); }
+
+        /* Theme Toggle Button */
+        #theme-toggle {
+            background: var(--skill-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        /* --- Header / Hero --- */
+        header {
+            padding: 9rem 2rem 5rem;
+            text-align: center;
+            background: radial-gradient(circle at top right, var(--accent), transparent 400px);
+            background-opacity: 0.1;
+        }
+
+        .profile-wrapper {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--card-bg);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        .profile-img { width: 100%; height: 100%; object-fit: cover; }
+
+        h1 {
+            font-family: var(--primary-font);
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .highlight { color: var(--accent); font-weight: 600; }
+
+        .social-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Cards & Layout --- */
+        main { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        section { margin-bottom: 5rem; }
+
+        h2 {
+            font-family: var(--primary-font);
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::after {
+            content: "";
+            height: 1px;
+            flex-grow: 1;
+            background: var(--border);
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .info-item strong {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .year {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 0.85rem;
+            min-width: 100px;
+        }
+
+        /* --- Skills --- */
+        .skills-container { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+        .skill-tag {
+            background: var(--skill-bg);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+        }
+
+        /* --- Projects --- */
+        .project-card {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .view-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 5rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 600px) {
+            .links { display: none; }
+            .timeline-item { flex-direction: column; gap: 0.5rem; }
+            .social-badges { flex-direction: column; align-items: center; gap: 0.75rem; }
+        }
+    </style>
 </head>
 <body>
+    <nav>
+        <div class="nav-content">
+            <span class="logo">AS<span>.</span></span>
+            <div class="nav-right">
+                <div class="links">
+                    <a href="#about">About</a>
+                    <a href="#education">Education</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                </div>
+                <button id="theme-toggle" title="Toggle Theme">🌓</button>
+            </div>
+        </div>
+    </nav>
 
-    <nav>
-        <div class="nav-content">
-            <span class="logo">AS<span>.</span></span>
-            <div class="nav-right">
-                <div class="links">
-                    <a href="#about">About</a>
-                    <a href="#certificates">Certificates</a>
-                    <a href="#skills">Skills</a>
-                    <a href="#contact">Contact</a>
-                </div>
-                <button id="theme-toggle">🌓</button>
-            </div>
-        </div>
-    </nav>
+    <header>
+        <div class="hero">
+            <div class="profile-wrapper">
+                <img src="profile.jpg" alt="Aike Steven Llagas" class="profile-img">
+            </div>
+            <h1>Aike Steven Llagas</h1>
+            <p class="subtitle">IT Student & <span class="highlight">Aspiring Web Developer</span></p>
+            <div class="social-badges">
+                <span>📍 Piñan, Zamboanga del Norte</span>
+                <span>✉️ aikestevenllagas15@gmail.com</span>
+            </div>
+        </div>
+    </header>
 
-    <header>
-        <div class="profile-wrapper">
-            <img src="profile.jpg" alt="Aike Steven" class="profile-img">
-        </div>
-        <h1>Aike Steven Llagas</h1>
-        <p class="subtitle">IT Student & <span class="highlight">Aspiring Web Developer</span></p>
-    </header>
+    <main>
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="glass-card">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Birthday</strong>
+                        <p>July 28, 2006</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>Academic Course</strong>
+                        <p>BS Information Technology</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>Availability</strong>
+                        <p>Internship Ready</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <main>
-        <section id="about">
-            <h2>Basic Information</h2>
-            <div class="cert-card" style="padding: 2.5rem; cursor: default;">
-                <p style="margin-bottom: 1.5rem;">I am a dedicated 1st-year IT student passionate about building clean, functional, and user-centric web applications.</p>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.9rem;">
-                    <div><strong>Birthday:</strong> July 28, 2006</div>
-                    <div><strong>Course:</strong> BSIT</div>
-                    <div><strong>Location:</strong> Zamboanga del Norte</div>
-                    <div><strong>Status:</strong> Active Student</div>
-                </div>
-            </div>
-        </section>
+        <section id="education">
+            <h2>Education</h2>
+            <div class="glass-card">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="year">2024 - Present</div>
+                        <div class="content">
+                            <h3>Colegio de San Francisco Javier</h3>
+                            <p>Bachelor of Science in Information Technology</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year">2018 - 2024</div>
+                        <div class="content">
+                            <h3>Rizal National High School</h3>
+                            <p>High School Diploma</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <section id="certificates">
-            <h2>Certificates & Awards</h2>
-            <div class="cert-grid">
-                <div class="cert-card" onclick="openModal('cert1.jpg')">
-                    <div class="cert-img-container">
-                        <img src="cert1.jpg" alt="Certificate 1">
-                    </div>
-                    <div class="cert-info">
-                        <h3>Academic Excellence Award</h3>
-                        <p>Awarded for outstanding academic performance during the 2024 semester.</p>
-                    </div>
-                </div>
+        <section id="skills">
+            <h2>Technical Toolkit</h2>
+            <div class="skills-container">
+                <span class="skill-tag">HTML5 / Semantic Web</span>
+                <span class="skill-tag">CSS3 / Flexbox / Grid</span>
+                <span class="skill-tag">Python (Foundation)</span>
+                <span class="skill-tag">Network Configuration</span>
+                <span class="skill-tag">Git / GitHub</span>
+            </div>
+        </section>
 
-                <div class="cert-card" onclick="openModal('cert2.jpg')">
-                    <div class="cert-img-container">
-                        <img src="cert2.jpg" alt="Certificate 2">
-                    </div>
-                    <div class="cert-info">
-                        <h3>IT Fundamentals Certification</h3>
-                        <p>Completed foundational training in computer hardware and networking.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <section id="projects">
+            <h2>Featured Projects</h2>
+            <div class="project-grid">
+                <a href="calculator.html" target="_blank" class="project-card">
+                    <h3>Scientific Calculator</h3>
+                    <p>A precision-built JavaScript calculator featuring advanced mathematical functions and a modern dark UI.</p>
+                    <span class="view-btn">Launch Application →</span>
+                </a>
+            </div>
+        </section>
+    </main>
 
-        <section id="skills">
-            <h2>Technical Toolkit</h2>
-            <div class="skills-container">
-                <span class="skill-tag">HTML5</span>
-                <span class="skill-tag">CSS3</span>
-                <span class="skill-tag">JavaScript (Basic)</span>
-                <span class="skill-tag">Python</span>
-                <span class="skill-tag">UI/UX Design</span>
-                <span class="skill-tag">Git/GitHub</span>
-                <span class="skill-tag">Network Setup</span>
-            </div>
-        </section>
+    <footer>
+        <p>© 2026 Aike Steven Llagas • Built with Precision</p>
+    </footer>
 
-        <section id="contact">
-            <h2>Get In Touch</h2>
-            <div class="contact-grid">
-                <div>
-                    <div class="contact-info-item">
-                        <strong>Email</strong>
-                        <p>aikestevenllagas15@gmail.com</p>
-                    </div>
-                    <div class="contact-info-item">
-                        <strong>Socials</strong>
-                        <p>LinkedIn / GitHub / Facebook</p>
-                    </div>
-                </div>
-                <form class="contact-form">
-                    <div class="form-group">
-                        <label>Your Name</label>
-                        <input type="text" placeholder="John Doe">
-                    </div>
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" placeholder="john@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Message</label>
-                        <textarea rows="4" placeholder="How can I help you?"></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
-            </div>
-        </section>
-    </main>
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.documentElement;
+        
+        // Check for saved theme preference or system preference
+        const currentTheme = localStorage.getItem('theme') || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        if (currentTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+        }
 
-    <div id="imageModal" class="modal">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="fullImg">
-    </div>
-
-    <footer>
-        <p>© 2026 Aike Steven Llagas • Built with Instrument Sans</p>
-    </footer>
-
-    <script>
-        // Dark Mode Logic
-        const toggleBtn = document.getElementById('theme-toggle');
-        const body = document.documentElement;
-        
-        toggleBtn.addEventListener('click', () => {
-            const isDark = body.getAttribute('data-theme') === 'dark';
-            if(isDark) body.removeAttribute('data-theme');
-            else body.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', isDark ? 'light' : 'dark');
-        });
-
-        if(localStorage.getItem('theme') === 'dark') body.setAttribute('data-theme', 'dark');
-
-        // Modal Logic
-        function openModal(imgSrc) {
-            document.getElementById('imageModal').style.display = "flex";
-            document.getElementById('fullImg').src = imgSrc;
-        }
-
-        function closeModal() {
-            document.getElementById('imageModal').style.display = "none";
-        }
-
-        // Close modal when clicking outside the image
-        window.onclick = function(event) {
-            const modal = document.getElementById('imageModal');
-            if (event.target == modal) closeModal();
-        }
-    </script>
+        toggleBtn.addEventListener('click', () => {
+            let theme = body.getAttribute('data-theme');
+            if (theme === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    </script>
 </body>
 </html>
