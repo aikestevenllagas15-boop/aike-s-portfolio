@@ -8,25 +8,39 @@
     
     <style>
         :root {
+            /* Light Mode Colors */
             --primary-font: 'Instrument Sans', sans-serif;
             --secondary-font: 'Inter', sans-serif;
             --bg-color: #f8fafc;
+            --card-bg: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
             --accent: #2563eb;
-            --glass: rgba(255, 255, 255, 0.8);
+            --nav-bg: rgba(255, 255, 255, 0.8);
             --border: rgba(226, 232, 240, 0.8);
+            --skill-bg: #ffffff;
+        }
+
+        /* Dark Mode Colors */
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #60a5fa;
+            --nav-bg: rgba(15, 23, 42, 0.9);
+            --border: rgba(51, 65, 85, 0.5);
+            --skill-bg: #334155;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: var(--secondary-font);
@@ -41,11 +55,11 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
-            padding: 1rem 0;
+            padding: 0.75rem 0;
         }
 
         .nav-content {
@@ -60,134 +74,152 @@
         .logo {
             font-family: var(--primary-font);
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             letter-spacing: -1px;
         }
 
         .logo span { color: var(--accent); }
 
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
         .links a {
             text-decoration: none;
             color: var(--text-muted);
-            margin-left: 2rem;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
-            transition: color 0.3s;
         }
 
         .links a:hover { color: var(--accent); }
 
+        /* Theme Toggle Button */
+        #theme-toggle {
+            background: var(--skill-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
         /* --- Header / Hero --- */
         header {
-            padding: 8rem 2rem 4rem;
+            padding: 9rem 2rem 5rem;
             text-align: center;
-            background: radial-gradient(circle at top right, #e2e8f0, transparent);
+            background: radial-gradient(circle at top right, var(--accent), transparent 400px);
+            background-opacity: 0.1;
         }
 
         .profile-wrapper {
-            width: 120px;
-            height: 120px;
+            width: 130px;
+            height: 130px;
             margin: 0 auto 1.5rem;
             border-radius: 50%;
             overflow: hidden;
-            border: 4px solid white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 4px solid var(--card-bg);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
         }
 
         .profile-img { width: 100%; height: 100%; object-fit: cover; }
 
         h1 {
             font-family: var(--primary-font);
-            font-size: 3rem;
+            font-size: clamp(2rem, 8vw, 3.5rem);
             font-weight: 700;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.04em;
             margin-bottom: 0.5rem;
         }
 
         .subtitle {
             font-size: 1.1rem;
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .highlight {
-            color: var(--accent);
-            font-weight: 600;
-        }
+        .highlight { color: var(--accent); font-weight: 600; }
 
         .social-badges {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
             gap: 1.5rem;
             font-size: 0.85rem;
             color: var(--text-muted);
         }
 
-        /* --- Layout & Cards --- */
-        main {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        section { margin-bottom: 4rem; }
+        /* --- Cards & Layout --- */
+        main { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        section { margin-bottom: 5rem; }
 
         h2 {
             font-family: var(--primary-font);
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             margin-bottom: 2rem;
             letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::after {
+            content: "";
+            height: 1px;
+            flex-grow: 1;
+            background: var(--border);
         }
 
         .glass-card {
-            background: white;
+            background: var(--card-bg);
             padding: 2.5rem;
-            border-radius: 20px;
+            border-radius: 24px;
             border: 1px solid var(--border);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
-        /* --- Info Grid --- */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .info-item strong {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
             color: var(--text-muted);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
         }
 
-        /* --- Timeline --- */
         .timeline-item {
             display: flex;
             gap: 2rem;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .year {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--accent);
+            font-size: 0.85rem;
             min-width: 100px;
-            font-size: 0.9rem;
         }
 
         /* --- Skills --- */
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
+        .skills-container { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
         .skill-tag {
-            background: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+            background: var(--skill-bg);
+            padding: 0.6rem 1.2rem;
+            border-radius: 12px;
             font-size: 0.85rem;
             font-weight: 500;
             border: 1px solid var(--border);
@@ -198,21 +230,22 @@
             text-decoration: none;
             color: inherit;
             display: block;
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 24px;
             border: 1px solid var(--border);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .project-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            border-color: var(--accent);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
 
         .view-btn {
             display: inline-block;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             color: var(--accent);
             font-weight: 600;
             font-size: 0.9rem;
@@ -220,32 +253,16 @@
 
         footer {
             text-align: center;
-            padding: 4rem 2rem;
+            padding: 5rem 2rem;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             border-top: 1px solid var(--border);
         }
 
-        .back-to-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--accent);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 10px 15px rgba(37, 99, 235, 0.3);
-        }
-
         @media (max-width: 600px) {
-            h1 { font-size: 2.2rem; }
-            .social-badges { flex-direction: column; gap: 0.5rem; }
-            .links { display: none; } /* Hide nav on mobile for simplicity */
+            .links { display: none; }
+            .timeline-item { flex-direction: column; gap: 0.5rem; }
+            .social-badges { flex-direction: column; align-items: center; gap: 0.75rem; }
         }
     </style>
 </head>
@@ -253,12 +270,14 @@
     <nav>
         <div class="nav-content">
             <span class="logo">AS<span>.</span></span>
-            <div class="links">
-                <a href="#about">About</a>
-                <a href="#education">Education</a>
-                <a href="#certificates">Certificates</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
+            <div class="nav-right">
+                <div class="links">
+                    <a href="#about">About</a>
+                    <a href="#education">Education</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                </div>
+                <button id="theme-toggle" title="Toggle Theme">🌓</button>
             </div>
         </div>
     </nav>
@@ -266,7 +285,7 @@
     <header>
         <div class="hero">
             <div class="profile-wrapper">
-                <img src="profile.jpg" alt="Aike Steven" class="profile-img">
+                <img src="profile.jpg" alt="Aike Steven Llagas" class="profile-img">
             </div>
             <h1>Aike Steven Llagas</h1>
             <p class="subtitle">IT Student & <span class="highlight">Aspiring Web Developer</span></p>
@@ -278,33 +297,35 @@
     </header>
 
     <main>
-        <section id="about" class="glass-card">
-            <h2>Basic Information</h2>
-            <div class="info-grid">
-                <div class="info-item">
-                    <strong>Birthday</strong>
-                    <p>July 28, 2006</p>
-                </div>
-                <div class="info-item">
-                    <strong>Course</strong>
-                    <p>BS Information Technology</p>
-                </div>
-                <div class="info-item">
-                    <strong>Status</strong>
-                    <p>Open for Internships</p>
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="glass-card">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Birthday</strong>
+                        <p>July 28, 2006</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>Academic Course</strong>
+                        <p>BS Information Technology</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>Availability</strong>
+                        <p>Internship Ready</p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="education">
-            <h2>Educational Attainment</h2>
+            <h2>Education</h2>
             <div class="glass-card">
                 <div class="timeline">
                     <div class="timeline-item">
                         <div class="year">2024 - Present</div>
                         <div class="content">
                             <h3>Colegio de San Francisco Javier</h3>
-                            <p>BS Information Technology</p>
+                            <p>Bachelor of Science in Information Technology</p>
                         </div>
                     </div>
                     <div class="timeline-item">
@@ -321,11 +342,11 @@
         <section id="skills">
             <h2>Technical Toolkit</h2>
             <div class="skills-container">
-                <span class="skill-tag">HTML5</span>
-                <span class="skill-tag">CSS3</span>
-                <span class="skill-tag">Python (Basic)</span>
-                <span class="skill-tag">Networking</span>
-                <span class="skill-tag">GitHub</span>
+                <span class="skill-tag">HTML5 / Semantic Web</span>
+                <span class="skill-tag">CSS3 / Flexbox / Grid</span>
+                <span class="skill-tag">Python (Foundation)</span>
+                <span class="skill-tag">Network Configuration</span>
+                <span class="skill-tag">Git / GitHub</span>
             </div>
         </section>
 
@@ -334,18 +355,39 @@
             <div class="project-grid">
                 <a href="calculator.html" target="_blank" class="project-card">
                     <h3>Scientific Calculator</h3>
-                    <p>A precision-built JavaScript calculator with a modern dark interface.</p>
-                    <span class="view-btn">Launch App →</span>
+                    <p>A precision-built JavaScript calculator featuring advanced mathematical functions and a modern dark UI.</p>
+                    <span class="view-btn">Launch Application →</span>
                 </a>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>© 2026 Aike Steven Llagas | Designed with Professional Intent</p>
+        <p>© 2026 Aike Steven Llagas • Built with Precision</p>
     </footer>
 
-    <a href="#" class="back-to-top">↑</a>
+    <script>
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.documentElement;
+        
+        // Check for saved theme preference or system preference
+        const currentTheme = localStorage.getItem('theme') || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        if (currentTheme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            let theme = body.getAttribute('data-theme');
+            if (theme === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    </script>
 </body>
 </html>
-
