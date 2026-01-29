@@ -4,8 +4,250 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aike Steven | Professional Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-font: 'Instrument Sans', sans-serif;
+            --secondary-font: 'Inter', sans-serif;
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent: #2563eb;
+            --glass: rgba(255, 255, 255, 0.8);
+            --border: rgba(226, 232, 240, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--secondary-font);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: var(--primary-font);
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .links a:hover { color: var(--accent); }
+
+        /* --- Header / Hero --- */
+        header {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            background: radial-gradient(circle at top right, #e2e8f0, transparent);
+        }
+
+        .profile-wrapper {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .profile-img { width: 100%; height: 100%; object-fit: cover; }
+
+        h1 {
+            font-family: var(--primary-font);
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .social-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* --- Layout & Cards --- */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section { margin-bottom: 4rem; }
+
+        h2 {
+            font-family: var(--primary-font);
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .glass-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- Info Grid --- */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-item strong {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        /* --- Timeline --- */
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .year {
+            font-weight: 600;
+            color: var(--accent);
+            min-width: 100px;
+            font-size: 0.9rem;
+        }
+
+        /* --- Skills --- */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+        }
+
+        /* --- Projects --- */
+        .project-card {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .view-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--accent);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 10px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .social-badges { flex-direction: column; gap: 0.5rem; }
+            .links { display: none; } /* Hide nav on mobile for simplicity */
+        }
+    </style>
 </head>
 <body>
     <nav>
@@ -29,7 +271,7 @@
             <h1>Aike Steven Llagas</h1>
             <p class="subtitle">IT Student & <span class="highlight">Aspiring Web Developer</span></p>
             <div class="social-badges">
-                <span>📍 Brgy. North, Piñan, Zamboanga del Norte</span>
+                <span>📍 Piñan, Zamboanga del Norte</span>
                 <span>✉️ aikestevenllagas15@gmail.com</span>
             </div>
         </div>
@@ -44,10 +286,6 @@
                     <p>July 28, 2006</p>
                 </div>
                 <div class="info-item">
-                    <strong>Email</strong>
-                    <p>aikestevenllagas15@gmail.com</p>
-                </div>
-                <div class="info-item">
                     <strong>Course</strong>
                     <p>BS Information Technology</p>
                 </div>
@@ -58,52 +296,23 @@
             </div>
         </section>
 
-        <section id="education" class="glass-card">
+        <section id="education">
             <h2>Educational Attainment</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="year">2024 - Present</div>
-                    <div class="content">
-                        <h3>Colegio de San Francisco Javier</h3>
-                        <p>BS Information Technology (College)</p>
+            <div class="glass-card">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="year">2024 - Present</div>
+                        <div class="content">
+                            <h3>Colegio de San Francisco Javier</h3>
+                            <p>BS Information Technology</p>
+                        </div>
                     </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="year">2018 - 2024</div>
-                    <div class="content">
-                        <h3>Rizal National High School</h3>
-                        <p>High School Diploma</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="year">2012 - 2018</div>
-                    <div class="content">
-                        <h3>Piñan Central School</h3>
-                        <p>Elementary Education</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="certificates" class="glass-card">
-            <h2>Certificates & Achievements</h2>
-            <div class="cert-grid">
-                <div class="cert-card">
-                    <div class="cert-img-container">
-                        <img src="cert1.jpg" alt="Certificate 1">
-                    </div>
-                    <div class="cert-info">
-                        <h3>Technical Achievement</h3>
-                        <p>Academic Excellence Award</p>
-                    </div>
-                </div>
-                <div class="cert-card">
-                    <div class="cert-img-container">
-                        <img src="cert2.jpg" alt="Certificate 2">
-                    </div>
-                    <div class="cert-info">
-                        <h3>IT Fundamentals</h3>
-                        <p>Skills Training Certificate</p>
+                    <div class="timeline-item">
+                        <div class="year">2018 - 2024</div>
+                        <div class="content">
+                            <h3>Rizal National High School</h3>
+                            <p>High School Diploma</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124,23 +333,19 @@
             <h2>Featured Projects</h2>
             <div class="project-grid">
                 <a href="calculator.html" target="_blank" class="project-card">
-                    <div class="card-content">
-                        <h3>Scientific Calculator</h3>
-                        <p>A precision-built JavaScript calculator with a modern dark interface.</p>
-                        <span class="view-btn">Launch App →</span>
-                    </div>
+                    <h3>Scientific Calculator</h3>
+                    <p>A precision-built JavaScript calculator with a modern dark interface.</p>
+                    <span class="view-btn">Launch App →</span>
                 </a>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>© 2026 Aike Steven Llagas | aikestevenllagas15@gmail.com</p>
+        <p>© 2026 Aike Steven Llagas | Designed with Professional Intent</p>
     </footer>
 
     <a href="#" class="back-to-top">↑</a>
 </body>
 </html>
-
-
 
