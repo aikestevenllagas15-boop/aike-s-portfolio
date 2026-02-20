@@ -1,83 +1,757 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aike Steven | Professional Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Aike Steven | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root[data-theme="dark"] {
+            --bg: #0a0a0f;
+            --bg-2: #111118;
+            --bg-3: #1a1a24;
+            --surface: rgba(255,255,255,0.04);
+            --surface-hover: rgba(255,255,255,0.07);
+            --border: rgba(255,255,255,0.08);
+            --text: #f0f0f8;
+            --text-muted: #888899;
+            --text-subtle: #555566;
+            --accent: #7c6aff;
+            --accent-2: #ff6a9b;
+            --accent-glow: rgba(124,106,255,0.3);
+            --nav-bg: rgba(10,10,15,0.85);
+            --tag-bg: rgba(124,106,255,0.12);
+            --tag-border: rgba(124,106,255,0.3);
+            --shadow: 0 20px 60px rgba(0,0,0,0.5);
+            --timeline-line: rgba(124,106,255,0.2);
+        }
+
+        :root[data-theme="light"] {
+            --bg: #f5f4f8;
+            --bg-2: #eeecf5;
+            --bg-3: #e8e5f2;
+            --surface: rgba(255,255,255,0.7);
+            --surface-hover: rgba(255,255,255,0.9);
+            --border: rgba(0,0,0,0.07);
+            --text: #1a1828;
+            --text-muted: #6b6880;
+            --text-subtle: #aaa8bb;
+            --accent: #5b48e8;
+            --accent-2: #e83d77;
+            --accent-glow: rgba(91,72,232,0.15);
+            --nav-bg: rgba(245,244,248,0.88);
+            --tag-bg: rgba(91,72,232,0.08);
+            --tag-border: rgba(91,72,232,0.2);
+            --shadow: 0 20px 60px rgba(0,0,0,0.1);
+            --timeline-line: rgba(91,72,232,0.2);
+        }
+
+        /* ===== RESET ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: background 0.4s, color 0.4s;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ===== BACKGROUND DECORATION ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20%;
+            right: -15%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            transition: background 0.4s;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%;
+            left: -15%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,106,155,0.12) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            transition: background 0.4s;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.4s, border-color 0.4s;
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--text);
+            letter-spacing: -0.02em;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 400;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+            background: var(--surface);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+            margin-left: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            background: var(--surface-hover);
+            transform: scale(1.05);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        .profile-ring {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin-bottom: 2rem;
+        }
+
+        .profile-ring::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            z-index: 0;
+            animation: spin 8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .profile-img {
+            position: relative;
+            z-index: 1;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg);
+            display: block;
+        }
+
+        .profile-placeholder {
+            position: relative;
+            z-index: 1;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: var(--bg-3);
+            border: 4px solid var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            color: var(--accent);
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .contact-badges {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.9rem;
+            border-radius: 100px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            transition: background 0.2s;
+        }
+
+        .status-badge {
+            background: rgba(34,197,94,0.1);
+            border-color: rgba(34,197,94,0.25);
+            color: #4ade80;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .scroll-hint {
+            color: var(--text-subtle);
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(4px); }
+        }
+
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            letter-spacing: -0.02em;
+            margin-bottom: 2.5rem;
+            color: var(--text);
+        }
+
+        /* ===== GLASS CARDS ===== */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            background: var(--surface-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* ===== INFO GRID ===== */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-item strong {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+            margin-bottom: 0.3rem;
+        }
+
+        .info-item p {
+            color: var(--text);
+            font-weight: 400;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            bottom: 8px;
+            width: 1px;
+            background: var(--timeline-line);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item:last-child { padding-bottom: 0; }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -0.35rem;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .year-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            background: var(--tag-bg);
+            border: 1px solid var(--tag-border);
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .timeline-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ===== CERT GRID ===== */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .cert-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .cert-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .cert-placeholder {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, var(--bg-3), var(--bg-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .cert-body {
+            padding: 1rem 1.25rem;
+        }
+
+        .cert-body h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .cert-body p {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        /* ===== SKILLS ===== */
+        .skills-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            background: var(--tag-bg);
+            border: 1px solid var(--tag-border);
+            color: var(--accent);
+            padding: 0.45rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background 0.2s, transform 0.2s;
+            cursor: default;
+        }
+
+        .skill-tag:hover {
+            background: rgba(124,106,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* ===== PROJECT CARD ===== */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .project-card {
+            text-decoration: none;
+            display: block;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s, background 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+            border-color: var(--accent);
+            background: var(--surface-hover);
+        }
+
+        .project-card:hover::before { opacity: 1; }
+
+        .project-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .launch-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.02em;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-subtle);
+            font-size: 0.82rem;
+            transition: border-color 0.4s;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 99;
+            width: 40px;
+            height: 40px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+        }
+
+        .back-top:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* ===== DIVIDER ===== */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .nav-links a { display: none; }
+            main { padding: 0 1rem; }
+            .hero h1 { font-size: 2rem; }
+        }
+
+        /* ===== FADE IN ANIMATION ===== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .fade-in:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in:nth-child(4) { animation-delay: 0.4s; }
+    </style>
 </head>
 <body>
+
+    <!-- NAV -->
     <nav>
-        <div class="nav-content">
+        <div class="nav-inner">
             <span class="logo">AS<span>.</span></span>
-            <div class="links">
+            <div class="nav-links">
                 <a href="#about">About</a>
                 <a href="#education">Education</a>
                 <a href="#certificates">Certificates</a>
                 <a href="#skills">Skills</a>
                 <a href="#projects">Projects</a>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
             </div>
         </div>
     </nav>
 
-    <header>
-        <div class="hero">
-            <div class="profile-wrapper">
-                <img src="profile.jpg" alt="Aike Steven" class="profile-img">
-            </div>
-            <h1>Aike Steven Llagas</h1>
-            <p class="subtitle">IT Student & <span class="highlight">Aspiring Web Developer</span></p>
-            <div class="social-badges">
-                <span>📍 Brgy. North, Piñan, Zamboanga del Norte</span>
-                <span>✉️ aikestevenllagas15@gmail.com</span>
-            </div>
-        </div>
-    </header>
-
     <main>
-        <section id="about" class="glass-card">
-            <h2>Basic Information</h2>
-            <div class="info-grid">
-                <div class="info-item">
-                    <strong>Birthday</strong>
-                    <p>July 28, 2006</p>
-                </div>
-                <div class="info-item">
-                    <strong>Email</strong>
-                    <p>aikestevenllagas15@gmail.com</p>
-                </div>
-                <div class="info-item">
-                    <strong>Course</strong>
-                    <p>BS Information Technology</p>
-                </div>
-                <div class="info-item">
-                    <strong>Status</strong>
-                    <p>Open for Internships</p>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="profile-ring fade-in">
+                <div class="profile-placeholder">AS</div>
+                <!-- Swap the line above with: <img src="profile.jpg" alt="Aike Steven" class="profile-img"> -->
+            </div>
+
+            <h1 class="fade-in">
+                Aike Steven<br><span>Llagas</span>
+            </h1>
+
+            <p class="subtitle fade-in">IT Student &amp; Aspiring Web Developer</p>
+
+            <div class="contact-badges fade-in">
+                <span class="badge">📍 Piñan, Zamboanga del Norte</span>
+                <span class="badge">✉️ aikestevenllagas15@gmail.com</span>
+                <span class="badge status-badge"><span class="status-dot"></span> Open for Internships</span>
+            </div>
+
+            <div class="scroll-hint fade-in">
+                <span>Scroll to explore</span>
+                <span>↓</span>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- ABOUT -->
+        <section id="about">
+            <div class="section-label">01 — Overview</div>
+            <h2 class="section-title">Basic Information</h2>
+            <div class="card">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <strong>Birthday</strong>
+                        <p>July 28, 2006</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>Email</strong>
+                        <p>aikestevenllagas15@gmail.com</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>Course</strong>
+                        <p>BS Information Technology</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>School</strong>
+                        <p>Colegio de San Francisco Javier</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>Status</strong>
+                        <p>Open for Internships</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>Year</strong>
+                        <p>1st Year College</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="education" class="glass-card">
-            <h2>Educational Attainment</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="year">2024 - Present</div>
-                    <div class="content">
+        <div class="divider"></div>
+
+        <!-- EDUCATION -->
+        <section id="education">
+            <div class="section-label">02 — Background</div>
+            <h2 class="section-title">Educational Attainment</h2>
+            <div class="card">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="year-badge">2024 — Present</span>
                         <h3>Colegio de San Francisco Javier</h3>
                         <p>BS Information Technology (College)</p>
                     </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="year">2018 - 2024</div>
-                    <div class="content">
+                    <div class="timeline-item">
+                        <span class="year-badge">2018 — 2024</span>
                         <h3>Rizal National High School</h3>
-                        <p>High School Diploma</p>
+                        <p>Junior &amp; Senior High School Diploma</p>
                     </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="year">2012 - 2018</div>
-                    <div class="content">
+                    <div class="timeline-item">
+                        <span class="year-badge">2012 — 2018</span>
                         <h3>Piñan Central School</h3>
                         <p>Elementary Education</p>
                     </div>
@@ -85,23 +759,25 @@
             </div>
         </section>
 
-        <section id="certificates" class="glass-card">
-            <h2>Certificates & Achievements</h2>
+        <div class="divider"></div>
+
+        <!-- CERTIFICATES -->
+        <section id="certificates">
+            <div class="section-label">03 — Recognition</div>
+            <h2 class="section-title">Certificates &amp; Achievements</h2>
             <div class="cert-grid">
                 <div class="cert-card">
-                    <div class="cert-img-container">
-                        <img src="cert1.jpg" alt="Certificate 1">
-                    </div>
-                    <div class="cert-info">
+                    <div class="cert-placeholder">🏆</div>
+                    <!-- Swap with: <img src="cert1.jpg" alt="Certificate 1" class="cert-img"> -->
+                    <div class="cert-body">
                         <h3>Technical Achievement</h3>
                         <p>Academic Excellence Award</p>
                     </div>
                 </div>
                 <div class="cert-card">
-                    <div class="cert-img-container">
-                        <img src="cert2.jpg" alt="Certificate 2">
-                    </div>
-                    <div class="cert-info">
+                    <div class="cert-placeholder">📜</div>
+                    <!-- Swap with: <img src="cert2.jpg" alt="Certificate 2" class="cert-img"> -->
+                    <div class="cert-body">
                         <h3>IT Fundamentals</h3>
                         <p>Skills Training Certificate</p>
                     </div>
@@ -109,35 +785,83 @@
             </div>
         </section>
 
+        <div class="divider"></div>
+
+        <!-- SKILLS -->
         <section id="skills">
-            <h2>Technical Toolkit</h2>
-            <div class="skills-container">
+            <div class="section-label">04 — Expertise</div>
+            <h2 class="section-title">Technical Toolkit</h2>
+            <div class="skills-wrap">
                 <span class="skill-tag">HTML5</span>
                 <span class="skill-tag">CSS3</span>
+                <span class="skill-tag">JavaScript</span>
                 <span class="skill-tag">Python (Basic)</span>
                 <span class="skill-tag">Networking</span>
                 <span class="skill-tag">GitHub</span>
             </div>
         </section>
 
+        <div class="divider"></div>
+
+        <!-- PROJECTS -->
         <section id="projects">
-            <h2>Featured Projects</h2>
+            <div class="section-label">05 — Work</div>
+            <h2 class="section-title">Featured Projects</h2>
             <div class="project-grid">
                 <a href="calculator.html" target="_blank" class="project-card">
-                    <div class="card-content">
-                        <h3>Scientific Calculator</h3>
-                        <p>A precision-built JavaScript calculator with a modern dark interface.</p>
-                        <span class="view-btn">Launch App →</span>
-                    </div>
+                    <div class="project-icon">🧮</div>
+                    <h3>Scientific Calculator</h3>
+                    <p>A precision-built JavaScript calculator with a modern dark interface and advanced mathematical operations.</p>
+                    <span class="launch-btn">Launch App →</span>
                 </a>
             </div>
         </section>
+
     </main>
 
+    <!-- FOOTER -->
     <footer>
-        <p>© 2026 Aike Steven Llagas | aikestevenllagas15@gmail.com</p>
+        <p>© 2026 Aike Steven Llagas — <a href="mailto:aikestevenllagas15@gmail.com">aikestevenllagas15@gmail.com</a></p>
     </footer>
 
-    <a href="#" class="back-to-top">↑</a>
+    <!-- BACK TO TOP -->
+    <a href="#" class="back-top" aria-label="Back to top">↑</a>
+
+    <script>
+        // Theme toggle
+        const toggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Load saved theme
+        const saved = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', saved);
+        toggle.textContent = saved === 'dark' ? '☀️' : '🌙';
+
+        toggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+            localStorage.setItem('theme', next);
+        });
+
+        // Fade in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(el => {
+                if (el.isIntersecting) {
+                    el.target.style.opacity = '1';
+                    el.target.style.transform = 'translateY(0)';
+                    observer.unobserve(el.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section:not(.hero), .card, .cert-card, .project-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(16px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
