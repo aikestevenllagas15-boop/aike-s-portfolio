@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
@@ -155,8 +155,19 @@
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s; }
         .card:hover { background: var(--surface-hover); transform: translateY(-2px); box-shadow: var(--shadow); }
 
-        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; }
-        .info-item strong { display: block; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-subtle); margin-bottom: 0.3rem; }
+        .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        @media (max-width: 700px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 420px) { .info-grid { grid-template-columns: 1fr; } }
+        .info-item {
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            transition: border-color 0.2s;
+        }
+        .info-item:hover { border-color: var(--accent); }
+        .info-item strong { display: block; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-subtle); margin-bottom: 0.35rem; }
+        .info-item p { color: var(--text); font-size: 0.9rem; }
 
         /* Timeline */
         .timeline { position: relative; padding-left: 2rem; }
@@ -263,7 +274,7 @@
         <div class="profile-upload-wrap fade-in" onclick="document.getElementById('profileInput').click()" title="Click to upload photo">
             <div class="profile-display" id="profileDisplay">
                 <span id="profileInitials">AS</span>
-                <img id="profileImg" src="profile.jpg" alt="Aike Steven" style="display:block;">
+                <img id="profileImg" src="" alt="" style="display:none;">
             </div>
             <div class="profile-overlay">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -280,7 +291,7 @@
 
         <div class="contact-badges fade-in">
             <span class="badge">📍 Piñan, Zamboanga del Norte</span>
-            <span class="badge">✉️ aikestevenllagas15@gmail.com</span>
+            <span class="badge">✉️ <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ed8c8486889e99889b888381818c8a8c9edcd8ad8a808c8481c38e8280">[email&#160;protected]</a></span>
             <span class="badge status-badge"><span class="status-dot"></span> Open for Internships</span>
         </div>
 
@@ -299,7 +310,7 @@
         <div class="card">
             <div class="info-grid">
                 <div class="info-item"><strong>Birthday</strong><p>July 28, 2006</p></div>
-                <div class="info-item"><strong>Email</strong><p>aikestevenllagas15@gmail.com</p></div>
+                <div class="info-item"><strong>Email</strong><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4e2f27252b3d3a2b382b2022222f292f3d7f7b0e29232f2722602d2123">[email&#160;protected]</a></p></div>
                 <div class="info-item"><strong>Course</strong><p>BS Information Technology</p></div>
                 <div class="info-item"><strong>School</strong><p>Colegio de San Francisco Javier</p></div>
                 <div class="info-item"><strong>Status</strong><p>Open for Internships</p></div>
@@ -487,12 +498,12 @@
 </main>
 
 <footer>
-    <p>© 2026 Aike Steven Llagas — <a href="mailto:aikestevenllagas15@gmail.com">aikestevenllagas15@gmail.com</a></p>
+    <p>© 2026 Aike Steven Llagas — <a href="/cdn-cgi/l/email-protection#a5c4cccec0d6d1c0d3c0cbc9c9c4c2c4d69490e5c2c8c4ccc98bc6cac8"><span class="__cf_email__" data-cfemail="b8d9d1d3ddcbccddceddd6d4d4d9dfd9cb898df8dfd5d9d1d496dbd7d5">[email&#160;protected]</span></a></p>
 </footer>
 
 <a href="#" class="back-top" aria-label="Back to top">↑</a>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Theme
     const toggle = document.getElementById('themeToggle');
     const html = document.documentElement;
@@ -534,19 +545,3 @@
     const observer = new IntersectionObserver(entries => {
         entries.forEach(el => {
             if (el.isIntersecting) {
-                el.target.style.opacity = '1';
-                el.target.style.transform = 'translateY(0)';
-                observer.unobserve(el.target);
-            }
-        });
-    }, { threshold: 0.08 });
-
-    document.querySelectorAll('section:not(.hero), .card, .cert-card, .project-card').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(16px)';
-        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        observer.observe(el);
-    });
-</script>
-</body>
-</html>                
