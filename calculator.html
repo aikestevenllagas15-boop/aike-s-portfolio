@@ -4,162 +4,660 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pro Scientific Calculator | AS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #0f172a; --panel: #1e293b; --accent: #38bdf8;
-            --text: #f1f5f9; --text-dim: #94a3b8;
-            --btn-bg: rgba(255, 255, 255, 0.05); --shadow: rgba(0, 0, 0, 0.4);
+        /* ===== THEME VARIABLES ===== */
+        :root[data-theme="dark"] {
+            --bg: #080810;
+            --bg-grid: rgba(255,255,255,0.025);
+            --panel: #0f0f1a;
+            --panel-2: #13131f;
+            --surface: rgba(255,255,255,0.04);
+            --surface-hover: rgba(255,255,255,0.08);
+            --border: rgba(255,255,255,0.07);
+            --border-bright: rgba(255,255,255,0.14);
+            --text: #eeeeff;
+            --text-dim: #6666aa;
+            --text-subtle: #33334a;
+            --accent: #6ee7ff;
+            --accent-2: #a78bfa;
+            --accent-3: #fb7185;
+            --accent-glow: rgba(110,231,255,0.15);
+            --equal-from: #6ee7ff;
+            --equal-to: #a78bfa;
+            --shadow-lg: 0 40px 80px rgba(0,0,0,0.7);
+            --shadow-btn: 0 4px 12px rgba(0,0,0,0.4);
+            --inset: inset 0 1px 0 rgba(255,255,255,0.06);
         }
-        [data-theme="light"] {
-            --bg: #e2e8f0; --panel: #ffffff; --accent: #0ea5e9;
-            --text: #0f172a; --text-dim: #64748b; --btn-bg: #f1f5f9; --shadow: rgba(0, 0, 0, 0.1);
+
+        :root[data-theme="light"] {
+            --bg: #f0f0fa;
+            --bg-grid: rgba(0,0,0,0.035);
+            --panel: #ffffff;
+            --panel-2: #f7f7ff;
+            --surface: rgba(0,0,0,0.04);
+            --surface-hover: rgba(0,0,0,0.07);
+            --border: rgba(0,0,0,0.08);
+            --border-bright: rgba(0,0,0,0.15);
+            --text: #0a0a18;
+            --text-dim: #8888aa;
+            --text-subtle: #ccccdd;
+            --accent: #0284c7;
+            --accent-2: #7c3aed;
+            --accent-3: #e11d48;
+            --accent-glow: rgba(2,132,199,0.12);
+            --equal-from: #0284c7;
+            --equal-to: #7c3aed;
+            --shadow-lg: 0 40px 80px rgba(0,0,0,0.12);
+            --shadow-btn: 0 2px 8px rgba(0,0,0,0.1);
+            --inset: inset 0 1px 0 rgba(255,255,255,0.8);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
-        body { background: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: 'Inter', sans-serif; }
-        
-        .calc-wrapper { display: flex; gap: 20px; align-items: flex-start; padding: 20px; }
-        .calc-container { background: var(--panel); padding: 25px; border-radius: 32px; box-shadow: 0 25px 50px -12px var(--shadow); width: 340px; border: 1px solid rgba(255, 255, 255, 0.1); }
-        
-        .calc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .header-controls { display: flex; gap: 8px; }
-        
-        .theme-toggle, .home-btn {
-            background: var(--btn-bg); border: none; color: var(--text); padding: 8px 12px;
-            border-radius: 12px; cursor: pointer; font-size: 0.75rem; font-weight: 600;
-            text-decoration: none; display: inline-flex; align-items: center;
+
+        /* ===== RESET ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: background 0.4s;
+            position: relative;
+            overflow-x: hidden;
         }
-        .theme-toggle:hover, .home-btn:hover { background: rgba(56, 189, 248, 0.2); color: var(--accent); }
+
+        /* Grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--bg-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+            transition: background-image 0.4s;
+        }
+
+        /* Ambient glow */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            transition: background 0.4s;
+        }
+
+        /* ===== LAYOUT ===== */
+        .calc-wrapper {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            position: relative;
+            z-index: 1;
+            animation: riseIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes riseIn {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== CALCULATOR PANEL ===== */
+        .calc-container {
+            background: var(--panel);
+            border: 1px solid var(--border-bright);
+            border-radius: 28px;
+            padding: 22px;
+            width: 340px;
+            box-shadow: var(--shadow-lg), var(--inset);
+            transition: background 0.4s, border-color 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top shimmer line */
+        .calc-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 20%; right: 20%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.6;
+        }
+
+        /* ===== HEADER ===== */
+        .calc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 7px;
+        }
+
+        .home-btn, .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+            letter-spacing: 0.03em;
+        }
+
+        .home-btn:hover, .theme-toggle:hover {
+            background: var(--surface-hover);
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .brand-tag {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+        }
+
+        /* ===== DISPLAY ===== */
+        .display-wrap {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .display-label {
+            font-size: 0.58rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+            margin-bottom: 6px;
+        }
 
         #display {
-            width: 100%; height: 80px; background: rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px; color: var(--text); text-align: right; padding: 20px; font-size: 1.8rem; margin-bottom: 25px; outline: none;
+            width: 100%;
+            height: 76px;
+            background: var(--panel-2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            color: var(--text);
+            text-align: right;
+            padding: 0 18px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 400;
+            outline: none;
+            letter-spacing: -0.02em;
+            transition: all 0.2s;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
         }
 
-        .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        button.calc-btn { height: 55px; border-radius: 14px; border: none; background: var(--btn-bg); color: var(--text); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: transform 0.1s; }
-        button.calc-btn:hover { background: rgba(56, 189, 248, 0.2); transform: translateY(-2px); }
-        
-        .btn-sci { color: #818cf8; font-size: 0.85rem; }
-        .btn-op { color: var(--accent); }
-        .btn-clear { color: #f87171; }
-        .btn-equal { grid-column: span 4; background: var(--accent); color: white; font-size: 1.5rem; }
+        #display:focus {
+            border-color: var(--accent);
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.2), 0 0 0 3px var(--accent-glow);
+        }
 
-        .history-panel { width: 280px; height: 540px; background: var(--panel); border-radius: 24px; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 30px var(--shadow); }
-        .history-list { flex: 1; overflow-y: auto; margin-top: 15px; }
-        .history-item { padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; }
-        .h-exp { font-size: 0.75rem; color: var(--text-dim); display: block; }
-        .h-res { font-size: 1.1rem; color: var(--text); font-weight: 700; }
+        /* ===== BUTTON GRID ===== */
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
 
-        @media (max-width: 700px) { .calc-wrapper { flex-direction: column; align-items: center; } .history-panel { width: 340px; height: 250px; } }
+        /* ===== BASE BUTTON ===== */
+        button.calc-btn {
+            height: 58px;
+            border-radius: 13px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: var(--shadow-btn), var(--inset);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.01em;
+        }
+
+        button.calc-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.15), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        button.calc-btn:hover {
+            background: var(--surface-hover);
+            border-color: var(--border-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3), var(--inset);
+        }
+
+        button.calc-btn:hover::after { opacity: 1; }
+
+        button.calc-btn:active {
+            transform: translateY(0px) scale(0.97);
+            box-shadow: var(--shadow-btn);
+        }
+
+        /* ===== BUTTON TYPES ===== */
+        .btn-sci {
+            color: var(--accent-2);
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            background: rgba(167,139,250,0.06);
+            border-color: rgba(167,139,250,0.15);
+        }
+        .btn-sci:hover {
+            background: rgba(167,139,250,0.14) !important;
+            border-color: var(--accent-2) !important;
+            color: var(--accent-2) !important;
+        }
+
+        .btn-op {
+            color: var(--accent);
+            background: rgba(110,231,255,0.05);
+            border-color: rgba(110,231,255,0.12);
+            font-size: 1.1rem;
+        }
+        .btn-op:hover {
+            background: rgba(110,231,255,0.12) !important;
+            border-color: var(--accent) !important;
+            color: var(--accent) !important;
+        }
+
+        .btn-clear {
+            color: var(--accent-3);
+            background: rgba(251,113,133,0.06);
+            border-color: rgba(251,113,133,0.15);
+        }
+        .btn-clear:hover {
+            background: rgba(251,113,133,0.14) !important;
+            border-color: var(--accent-3) !important;
+            color: var(--accent-3) !important;
+        }
+
+        .btn-num {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        /* EQUALS — full-width gradient */
+        .btn-equal {
+            grid-column: span 4;
+            height: 52px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: 0.05em;
+            background: linear-gradient(90deg, var(--equal-from), var(--equal-to));
+            color: #fff;
+            border: none;
+            border-radius: 13px;
+            box-shadow: 0 4px 20px var(--accent-glow), var(--inset);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-equal::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--equal-to), var(--equal-from));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-equal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--accent-glow);
+        }
+
+        .btn-equal:hover::before { opacity: 1; }
+
+        .btn-equal:active {
+            transform: scale(0.98);
+        }
+
+        /* ===== HISTORY PANEL ===== */
+        .history-panel {
+            width: 260px;
+            height: 540px;
+            background: var(--panel);
+            border: 1px solid var(--border-bright);
+            border-radius: 24px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-lg), var(--inset);
+            transition: background 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .history-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 20%; right: 20%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-2), transparent);
+            opacity: 0.5;
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .history-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--accent-2);
+            box-shadow: 0 0 6px var(--accent-2);
+        }
+
+        .history-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-2);
+        }
+
+        .history-list {
+            flex: 1;
+            overflow-y: auto;
+            margin-top: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        .history-list::-webkit-scrollbar { width: 3px; }
+        .history-list::-webkit-scrollbar-track { background: transparent; }
+        .history-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+        .history-item {
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s;
+            margin-bottom: 4px;
+        }
+
+        .history-item:hover {
+            background: var(--surface);
+            border-color: var(--border);
+        }
+
+        .h-exp {
+            display: block;
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: 0.02em;
+        }
+
+        .h-res {
+            display: block;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.01em;
+        }
+
+        .h-res::before {
+            content: '= ';
+            color: var(--accent);
+            font-weight: 400;
+        }
+
+        .history-empty {
+            text-align: center;
+            color: var(--text-subtle);
+            font-size: 0.72rem;
+            margin-top: 30px;
+            letter-spacing: 0.05em;
+        }
+
+        .clear-history-btn {
+            background: none;
+            border: 1px solid rgba(251,113,133,0.2);
+            border-radius: 8px;
+            color: var(--accent-3);
+            cursor: pointer;
+            font-size: 0.65rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.08em;
+            padding: 7px 10px;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+
+        .clear-history-btn:hover {
+            background: rgba(251,113,133,0.08);
+            border-color: var(--accent-3);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 680px) {
+            .calc-wrapper { flex-direction: column; align-items: center; }
+            .history-panel { width: 340px; height: 220px; }
+        }
+
+        @media (max-width: 380px) {
+            .calc-container { width: 300px; padding: 16px; }
+            button.calc-btn { height: 50px; font-size: 0.9rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="calc-wrapper">
-        <div class="calc-container">
-            <div class="calc-header">
-                <div class="header-controls">
-                    <a href="index.html" class="home-btn">🏠 Home</a>
-                    <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
-                </div>
-                <span style="color: var(--text-dim); font-size: 0.7rem; font-weight: 800;">AIKE OS v1.0</span>
+<div class="calc-wrapper">
+
+    <!-- CALCULATOR -->
+    <div class="calc-container">
+
+        <div class="calc-header">
+            <div class="header-controls">
+                <a href="index.html" class="home-btn">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Home
+                </a>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    Theme
+                </button>
             </div>
-            
-            <input type="text" id="display" placeholder="0" readonly>
-            
-            <div class="buttons">
-                <button class="calc-btn btn-sci" onclick="append('Math.sin(')">sin</button>
-                <button class="calc-btn btn-sci" onclick="append('Math.cos(')">cos</button>
-                <button class="calc-btn btn-sci" onclick="append('Math.tan(')">tan</button>
-                <button class="calc-btn btn-sci" onclick="append('Math.sqrt(')">√</button>
-
-                <button class="calc-btn btn-clear" onclick="clearDisplay()">AC</button>
-                <button class="calc-btn btn-op" onclick="deleteLast()">⌫</button>
-                <button class="calc-btn btn-op" onclick="append('**')">xʸ</button>
-                <button class="calc-btn btn-op" onclick="append('/')">/</button>
-
-                <button class="calc-btn" onclick="append('7')">7</button>
-                <button class="calc-btn" onclick="append('8')">8</button>
-                <button class="calc-btn" onclick="append('9')">9</button>
-                <button class="calc-btn btn-op" onclick="append('*')">×</button>
-
-                <button class="calc-btn" onclick="append('4')">4</button>
-                <button class="calc-btn" onclick="append('5')">5</button>
-                <button class="calc-btn" onclick="append('6')">6</button>
-                <button class="calc-btn btn-op" onclick="append('-')">−</button>
-
-                <button class="calc-btn" onclick="append('1')">1</button>
-                <button class="calc-btn" onclick="append('2')">2</button>
-                <button class="calc-btn" onclick="append('3')">3</button>
-                <button class="calc-btn btn-op" onclick="append('+')">+</button>
-
-                <button class="calc-btn" onclick="append('0')">0</button>
-                <button class="calc-btn" onclick="append('.')">.</button>
-                <button class="calc-btn" onclick="append('(')">(</button>
-                <button class="calc-btn" onclick="append(')')">)</button>
-
-                <button class="calc-btn btn-equal" onclick="calculate()">=</button>
-            </div>
+            <span class="brand-tag">AIKE OS v1.0</span>
         </div>
 
-        <div class="history-panel">
-            <h3 style="color: var(--accent); font-size: 0.9rem;">History</h3>
-            <div class="history-list" id="historyList"></div>
-            <button onclick="clearHistory()" style="background: none; border: none; color: #f87171; cursor: pointer; font-size: 0.7rem; margin-top: 10px; text-align: left;">Clear History</button>
+        <div class="display-wrap">
+            <div class="display-label">Expression</div>
+            <input type="text" id="display" placeholder="0" readonly>
+        </div>
+
+        <div class="buttons">
+            <!-- Scientific row -->
+            <button class="calc-btn btn-sci" onclick="append('Math.sin(')">sin</button>
+            <button class="calc-btn btn-sci" onclick="append('Math.cos(')">cos</button>
+            <button class="calc-btn btn-sci" onclick="append('Math.tan(')">tan</button>
+            <button class="calc-btn btn-sci" onclick="append('Math.sqrt(')">√x</button>
+
+            <!-- Control row -->
+            <button class="calc-btn btn-clear" onclick="clearDisplay()">AC</button>
+            <button class="calc-btn btn-op" onclick="deleteLast()">⌫</button>
+            <button class="calc-btn btn-op" onclick="append('**')">xʸ</button>
+            <button class="calc-btn btn-op" onclick="append('/')">/</button>
+
+            <!-- Numbers + ops -->
+            <button class="calc-btn btn-num" onclick="append('7')">7</button>
+            <button class="calc-btn btn-num" onclick="append('8')">8</button>
+            <button class="calc-btn btn-num" onclick="append('9')">9</button>
+            <button class="calc-btn btn-op"  onclick="append('*')">×</button>
+
+            <button class="calc-btn btn-num" onclick="append('4')">4</button>
+            <button class="calc-btn btn-num" onclick="append('5')">5</button>
+            <button class="calc-btn btn-num" onclick="append('6')">6</button>
+            <button class="calc-btn btn-op"  onclick="append('-')">−</button>
+
+            <button class="calc-btn btn-num" onclick="append('1')">1</button>
+            <button class="calc-btn btn-num" onclick="append('2')">2</button>
+            <button class="calc-btn btn-num" onclick="append('3')">3</button>
+            <button class="calc-btn btn-op"  onclick="append('+')">+</button>
+
+            <button class="calc-btn btn-num" onclick="append('0')">0</button>
+            <button class="calc-btn btn-num" onclick="append('.')">.</button>
+            <button class="calc-btn btn-op"  onclick="append('(')">(</button>
+            <button class="calc-btn btn-op"  onclick="append(')')">)</button>
+
+            <!-- Equals -->
+            <button class="calc-btn btn-equal" onclick="calculate()">=</button>
         </div>
     </div>
 
-    <script>
-        const display = document.getElementById('display');
-        const historyList = document.getElementById('historyList');
-        let history = JSON.parse(localStorage.getItem('calcHistory')) || [];
+    <!-- HISTORY -->
+    <div class="history-panel">
+        <div class="history-header">
+            <div class="history-dot"></div>
+            <span class="history-title">History</span>
+        </div>
 
+        <div class="history-list" id="historyList"></div>
+
+        <button class="clear-history-btn" onclick="clearHistory()">
+            ✕ &nbsp;Clear History
+        </button>
+    </div>
+
+</div>
+
+<script>
+    const display = document.getElementById('display');
+    const historyList = document.getElementById('historyList');
+    let history = JSON.parse(localStorage.getItem('calcHistory')) || [];
+
+    updateHistoryUI();
+
+    function append(val) {
+        display.value += val;
+        display.style.fontSize = display.value.length > 18 ? '1.3rem' : display.value.length > 12 ? '1.6rem' : '2rem';
+    }
+
+    function clearDisplay() {
+        display.value = '';
+        display.style.fontSize = '2rem';
+    }
+
+    function deleteLast() {
+        display.value = display.value.slice(0, -1);
+        display.style.fontSize = display.value.length > 18 ? '1.3rem' : display.value.length > 12 ? '1.6rem' : '2rem';
+    }
+
+    function calculate() {
+        try {
+            let res = eval(display.value);
+            let formatted = Number(res.toFixed(8));
+            addHistory(display.value, formatted);
+            display.value = formatted;
+            display.style.fontSize = String(formatted).length > 18 ? '1.3rem' : String(formatted).length > 12 ? '1.6rem' : '2rem';
+
+            // Flash accent on display
+            display.style.color = 'var(--accent)';
+            setTimeout(() => display.style.color = '', 400);
+        } catch (e) {
+            display.value = 'Error';
+            display.style.color = 'var(--accent-3)';
+            setTimeout(() => { clearDisplay(); display.style.color = ''; }, 1500);
+        }
+    }
+
+    function addHistory(exp, res) {
+        history.unshift({ exp, res });
+        if (history.length > 10) history.pop();
+        localStorage.setItem('calcHistory', JSON.stringify(history));
         updateHistoryUI();
+    }
 
-        function append(val) { display.value += val; }
-        function clearDisplay() { display.value = ''; }
-        function deleteLast() { display.value = display.value.slice(0, -1); }
-
-        function calculate() {
-            try {
-                let res = eval(display.value);
-                let formatted = Number(res.toFixed(8));
-                addHistory(display.value, formatted);
-                display.value = formatted;
-            } catch (e) {
-                display.value = "Error";
-                setTimeout(clearDisplay, 1500);
-            }
+    function updateHistoryUI() {
+        if (history.length === 0) {
+            historyList.innerHTML = '<p class="history-empty">No calculations yet</p>';
+            return;
         }
+        historyList.innerHTML = history.map(item => `
+            <div class="history-item" onclick="reuse('${item.res}')">
+                <span class="h-exp">${item.exp}</span>
+                <span class="h-res">${item.res}</span>
+            </div>
+        `).join('');
+    }
 
-        function addHistory(exp, res) {
-            history.unshift({ exp, res });
-            if (history.length > 10) history.pop();
-            localStorage.setItem('calcHistory', JSON.stringify(history));
-            updateHistoryUI();
-        }
+    function reuse(val) {
+        display.value = val;
+        display.style.fontSize = String(val).length > 18 ? '1.3rem' : String(val).length > 12 ? '1.6rem' : '2rem';
+    }
 
-        function updateHistoryUI() {
-            if (history.length === 0) {
-                historyList.innerHTML = '<p style="color: var(--text-dim); font-size: 0.8rem; text-align: center; margin-top: 20px;">Empty</p>';
-                return;
-            }
-            historyList.innerHTML = history.map(item => `
-                <div class="history-item" onclick="reuse('${item.res}')">
-                    <span class="h-exp">${item.exp}</span>
-                    <span class="h-res">= ${item.res}</span>
-                </div>
-            `).join('');
-        }
+    function clearHistory() {
+        history = [];
+        localStorage.removeItem('calcHistory');
+        updateHistoryUI();
+    }
 
-        function reuse(val) { display.value = val; }
-        function clearHistory() { history = []; localStorage.removeItem('calcHistory'); updateHistoryUI(); }
-        function toggleTheme() {
-            const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', theme);
-        }
-    </script>
+    function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme');
+        document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    }
+
+    // Keyboard support
+    document.addEventListener('keydown', e => {
+        if (e.key >= '0' && e.key <= '9') append(e.key);
+        else if (['+', '-', '*', '/'].includes(e.key)) append(e.key);
+        else if (e.key === '.') append('.');
+        else if (e.key === '(' ) append('(');
+        else if (e.key === ')' ) append(')');
+        else if (e.key === 'Enter' || e.key === '=') calculate();
+        else if (e.key === 'Backspace') deleteLast();
+        else if (e.key === 'Escape') clearDisplay();
+    });
+</script>
 </body>
-    </html>
-
+</html>
